@@ -4,9 +4,12 @@ on:
   push:
     branches: [ main ]
 
+env:
+  # This fixes the Node.js 20 warning you saw
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   deploy:
-    # This tells GitHub to look for YOUR local runner
     runs-on: self-hosted
 
     steps:
@@ -15,12 +18,14 @@ jobs:
 
       - name: Deploy to Docker Compose
         run: |
-          # The runner is already on the VM, so we just run the commands
-          cd ~/civicpulse
+          # Use the full path to avoid 'command not found' errors
+          cd /home/ghulam/civicpulse
+          
+          # Pull the latest code
           git pull origin main
           
-          # Rebuild and restart the services
+          # Restart services
           docker-compose up -d --build
           
-          # Clean up unused images to save VM disk space
+          # Clean up
           docker image prune -f
