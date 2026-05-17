@@ -17,12 +17,10 @@ jobs:
 
       - name: Deploy to Docker Compose
         run: |
-          # Use the GITHUB_WORKSPACE variable provided by the runner
-          cd ${{ github.workspace }}
+          # We are already in the directory where the code was checked out
+          # No need to 'cd' into ~/civicpulse or 'git pull'
           
-          # We don't need 'git pull' here because 'actions/checkout' already did it!
-          
-          # Restart services using the docker-compose.yml in the current folder
+          # Restart services
           docker-compose up -d --build
           
           # Clean up
