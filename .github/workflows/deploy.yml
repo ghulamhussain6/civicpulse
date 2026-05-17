@@ -5,6 +5,7 @@ on:
     branches: [ main ]
 
 env:
+  # This fixes the Node.js 20 warning you saw
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -17,8 +18,11 @@ jobs:
 
       - name: Deploy to Docker Compose
         run: |
-          # We are already in the directory where the code was checked out
-          # No need to 'cd' into ~/civicpulse or 'git pull'
+          # Use the full path to avoid 'command not found' errors
+          cd /home/vagrant/civicpulse
+          
+          # Pull the latest code
+          git pull origin main
           
           # Restart services
           docker-compose up -d --build
