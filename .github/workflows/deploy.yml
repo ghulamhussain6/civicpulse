@@ -15,9 +15,20 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and Build
+        run: |
+          cd frontend
+          npm install
+          # Check your package.json for the correct build script
+          npm run build 
+
       - name: Deploy to Docker Compose
         run: |
-          # The checkout action puts us in the right folder automatically
-          # We just need to run the docker commands
+          # Now that 'dist' exists, docker-compose can mount it
           docker-compose up -d --build
           docker image prune -f
