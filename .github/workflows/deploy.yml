@@ -29,8 +29,9 @@ jobs:
       - name: Install dependencies and Build
         run: |
           cd frontend
-          npm ci # Using 'ci' is faster and more reliable for runners
-          npm run build 
+          npm install --prefer-offline --no-audit
+          #npm ci # Using 'ci' is faster and more reliable for runners
+          npm run build -- --configuration production --source-map=false
 
       - name: Sync Build to Stable Project Folder
         run: |
@@ -38,7 +39,7 @@ jobs:
           sudo mkdir -p /home/vagrant/civicpulse/frontend/dist
           # Sync the fresh build to the stable directory
           # Note: Adjust 'frontend/dist/frontend/' if your build output is nested
-          sudo rsync -avz --delete frontend/dist/frontend/ /home/vagrant/civicpulse/frontend/dist/
+          sudo rsync -avz --size-only  --delete frontend/dist/frontend/ /home/vagrant/civicpulse/frontend/dist/
           # Ensure Nginx has permission to read the synced files
           sudo chmod -R 755 /home/vagrant/civicpulse/frontend/dist
 
