@@ -28,7 +28,7 @@ import { HttpClient } from '@angular/common/http';
 
             <div class="form-group">
               <label>Country</label>
-              <select name="country" [(ngModel)]="selectedCountry" (change)="onCountryChange()" required>
+              <select name="country" [(ngModel)]="selectedCountry" (change)="onCountryChange(donationForm)" required>
                 <option value="" disabled>Select Country</option>
                 <option *ngFor="let c of countries" [value]="c.name">{{ c.name }}</option>
               </select>
@@ -38,11 +38,20 @@ import { HttpClient } from '@angular/common/http';
               <label>Contact (Network & Number)</label>
               <div class="contact-grid">
                 <div class="prefix-box">{{ getCountryCode() }}</div>
-                <select name="networkCode" ngModel required>
-                  <option value="" disabled>Network</option>
-                  <option *ngFor="let net of getNetworks()" [value]="net">{{ net }}</option>
-                </select>
-                <input type="text" name="phoneBody" ngModel required placeholder="7 digits" maxlength="7">
+                
+                <ng-container *ngIf="getNetworks().length > 0; else manualNetwork">
+                  <select name="networkCode" ngModel required>
+                    <option value="" disabled>Network</option>
+                    <option *ngFor="let net of getNetworks()" [value]="net">{{ net }}</option>
+                  </select>
+                </ng-container>
+                <ng-template #manualNetwork>
+                  <input type="text" name="networkCode" ngModel required placeholder="Code" style="width: 70px;">
+                </ng-template>
+
+                <input type="text" name="phoneBody" ngModel required 
+                       [placeholder]="selectedCountry === 'Pakistan' ? '7 digits' : 'Number'" 
+                       [maxlength]="selectedCountry === 'Pakistan' ? 7 : 12">
               </div>
             </div>
 
@@ -84,9 +93,8 @@ import { HttpClient } from '@angular/common/http';
     input, select { padding: 12px 15px; border: 1.5px solid #e1e1e1; border-radius: 8px; font-size: 15px; transition: 0.3s; }
     input:focus, select:focus { border-color: #1a472a; outline: none; }
 
-    /* Special grid for the phone number parts */
-    .contact-grid { display: grid; grid-template-columns: 60px 100px 1fr; gap: 5px; }
-    .prefix-box { background: #f0f0f0; border: 1.5px solid #e1e1e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555; font-size: 14px; }
+    .contact-grid { display: flex; gap: 5px; }
+    .prefix-box { background: #f0f0f0; border: 1.5px solid #e1e1e1; border-radius: 8px; padding: 0 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555; font-size: 14px; min-width: 60px; }
 
     .submit-btn { width: 100%; background: #1a472a; color: #c9a55c; padding: 18px; border: none; border-radius: 8px; font-weight: 800; font-size: 16px; margin-top: 30px; cursor: pointer; transition: 0.3s; }
     .submit-btn:hover:not(:disabled) { background: #13331e; transform: translateY(-2px); }
@@ -100,9 +108,15 @@ export class DonateComponent {
   selectedCountry: string = 'Pakistan';
 
   countries = [
-    { name: 'Pakistan', code: '+92', networks: ['300', '301', '302', '312', '321', '333', '345'] },
-    { name: 'Saudi Arabia', code: '+966', networks: ['50', '53', '54', '55', '56', '58', '59'] },
-    { name: 'UAE', code: '+971', networks: ['50', '52', '54', '55', '56', '58'] }
+    { name: 'Pakistan', code: '+92', networks: ['300', '301', '302', '303', '304', '305', '306', '307', '308', '309', '310', '311', '312', '313', '314', '315', '316', '317', '318', '321', '331', '332', '333', '334', '335', '336', '341', '342', '343', '344', '345', '346', '347'] },
+    { name: 'Saudi Arabia', code: '+966', networks: ['50', '53', '54', '55', '56', '57', '58', '59'] },
+    { name: 'UAE', code: '+971', networks: ['50', '52', '54', '55', '56', '58'] },
+    { name: 'Qatar', code: '+974', networks: ['33', '55', '66', '77'] },
+    { name: 'UK', code: '+44', networks: ['7'] },
+    { name: 'USA', code: '+1', networks: [] },
+    { name: 'Canada', code: '+1', networks: [] },
+    { name: 'Australia', code: '+61', networks: ['4'] },
+    { name: 'Other', code: '+', networks: [] }
   ];
 
   teamMembers = [
@@ -124,19 +138,18 @@ export class DonateComponent {
     return country ? country.networks : [];
   }
 
-  onCountryChange() {
-    // Reset selection if needed when country flips
+  onCountryChange(form: any) {
+    // Reset network code when country changes to avoid invalid combinations
+    form.controls['networkCode']?.setValue('');
   }
 
   onSubmit(form: any) {
     const rawData = form.value;
-    
-    // Combine the parts into a single contact number for the backend
     const fullContactNo = `${this.getCountryCode()}${rawData.networkCode}${rawData.phoneBody}`;
     
     const payload = {
       name: rawData.name,
-      country: rawData.country,
+      country: this.selectedCountry,
       contactNo: fullContactNo,
       amount: rawData.amount,
       referredBy: rawData.referredBy
@@ -146,8 +159,9 @@ export class DonateComponent {
       next: (res) => {
         alert('Jazakallah! Your donation record has been saved.');
         form.reset({
-          country: 'Pakistan' // Reset to default country
+          country: 'Pakistan'
         });
+        this.selectedCountry = 'Pakistan';
       },
       error: (err) => {
         console.error('Submission error:', err);
