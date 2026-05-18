@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'frontend/**'
-      - 'docker-compose.yml'  # Add this!
+      - 'docker-compose.yml'
       - '.github/workflows/**'
 
 env:
@@ -23,19 +23,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          # This is the magic line that turns on caching
           cache: 'npm'
           cache-dependency-path: 'frontend/package-lock.json'
 
       - name: Install dependencies and Build
         run: |
           cd frontend
-          npm install
-          # Check your package.json for the correct build script
+          npm ci # Using 'ci' is faster and more reliable for runners
           npm run build 
+
+      - name: Sync Build to Stable Project Folder
+        run: |
+          # Create the target directory if it doesn't exist
+          mkdir -p /home/vagrant/civicpulse/frontend/dist
+          # Sync the fresh build to the stable directory
+          # Note: Adjust 'frontend/dist/frontend/' if your build output is nested
+          rsync -avz --delete frontend/dist/ /home/vagrant/civicpulse/frontend/dist/
+          # Ensure Nginx has permission to read the synced files
+          chmod -R 755 /home/vagrant/civicpulse/frontend/dist
 
       - name: Deploy to Docker Compose
         run: |
-          # Now that 'dist' exists, docker-compose can mount it
+          # Run from the project root where the valid docker-compose.yml lives
+          cd /home/vagrant/civicpulse
           docker-compose up -d --build
           docker image prune -f

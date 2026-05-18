@@ -17,9 +17,10 @@ services:
     build: ./backend
     container_name: civic-backend
     restart: always  # <--- Added
+    env_file:
+      - /home/vagrant/civicpulse/.env
     environment:
       - DB_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@civic-db:27017/civicpulse?authSource=admin
-      - /home/vagrant/civicpulse/.env  # Use the absolute path here!
     ports:
       - "3000:3000" # Required for the Frontend to reach the API
     volumes:
@@ -32,7 +33,7 @@ services:
     container_name: civic-frontend
     restart: always  # <--- Added
     volumes: 
-       - ./frontend/dist:/usr/share/nginx/html:ro   
+       - /home/vagrant/civicpulse/frontend/dist:/usr/share/nginx/html:ro   
       #- ./frontend/dist:/usr/share/nginx/html:z
       #- frontend_data:/usr/share/nginx/html
   nginx:
@@ -45,7 +46,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./frontend/dist:/usr/share/nginx/html
+      - /home/vagrant/civicpulse/frontend/dist:/usr/share/nginx/html:ro
+      #- ./frontend/dist:/usr/share/nginx/html
       #- frontend_data:/usr/share/nginx/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - /mnt/remote-backups/ssl:/etc/nginx/ssl
