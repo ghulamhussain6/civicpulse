@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'frontend/**'
+      - 'docker-compose.yml'  # Add this!
       - '.github/workflows/**'
 
 env:
