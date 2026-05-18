@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -28,7 +28,7 @@ import { HttpClient } from '@angular/common/http';
 
             <div class="form-group">
               <label>Country</label>
-              <select name="country" [(ngModel)]="selectedCountry" (change)="onCountryChange(donationForm)" required>
+              <select name="country" [(ngModel)]="selectedCountry" (change)="onCountryChange()" required>
                 <option value="" disabled>Select Country</option>
                 <option *ngFor="let c of countries" [value]="c.name">{{ c.name }}</option>
               </select>
@@ -39,15 +39,18 @@ import { HttpClient } from '@angular/common/http';
               <div class="contact-grid">
                 <div class="prefix-box">{{ getCountryCode() }}</div>
                 
-                <ng-container *ngIf="getNetworks().length > 0; else manualNetwork">
-                  <select name="networkCode" ngModel required>
+                <div class="network-input-wrapper">
+                  <select *ngIf="getNetworks().length > 0; else manualNetwork" 
+                          name="networkCode" ngModel required>
                     <option value="" disabled>Network</option>
                     <option *ngFor="let net of getNetworks()" [value]="net">{{ net }}</option>
                   </select>
-                </ng-container>
-                <ng-template #manualNetwork>
-                  <input type="text" name="networkCode" ngModel required placeholder="Code" style="width: 70px;">
-                </ng-template>
+                  
+                  <ng-template #manualNetwork>
+                    <input type="text" name="networkCode" ngModel required 
+                           placeholder="Code" class="manual-code-input">
+                  </ng-template>
+                </div>
 
                 <input type="text" name="phoneBody" ngModel required 
                        [placeholder]="selectedCountry === 'Pakistan' ? '7 digits' : 'Number'" 
@@ -90,18 +93,20 @@ import { HttpClient } from '@angular/common/http';
     .form-group { display: flex; flex-direction: column; }
     .form-group label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 8px; }
     
-    input, select { padding: 12px 15px; border: 1.5px solid #e1e1e1; border-radius: 8px; font-size: 15px; transition: 0.3s; }
+    input, select { width: 100%; padding: 12px 15px; border: 1.5px solid #e1e1e1; border-radius: 8px; font-size: 15px; transition: 0.3s; box-sizing: border-box; }
     input:focus, select:focus { border-color: #1a472a; outline: none; }
 
-    .contact-grid { display: flex; gap: 5px; }
-    .prefix-box { background: #f0f0f0; border: 1.5px solid #e1e1e1; border-radius: 8px; padding: 0 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555; font-size: 14px; min-width: 60px; }
+    .contact-grid { display: flex; gap: 8px; align-items: stretch; }
+    .prefix-box { background: #f0f0f0; border: 1.5px solid #e1e1e1; border-radius: 8px; padding: 0 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555; font-size: 14px; min-width: 55px; }
+    .network-input-wrapper { min-width: 90px; }
+    .manual-code-input { width: 90px !important; }
 
     .submit-btn { width: 100%; background: #1a472a; color: #c9a55c; padding: 18px; border: none; border-radius: 8px; font-weight: 800; font-size: 16px; margin-top: 30px; cursor: pointer; transition: 0.3s; }
     .submit-btn:hover:not(:disabled) { background: #13331e; transform: translateY(-2px); }
     .submit-btn:disabled { background: #ccc; color: #666; cursor: not-allowed; }
     .security-note { margin-top: 25px; font-size: 12px; color: #888; text-align: center; }
 
-    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } .contact-grid { flex-wrap: wrap; } }
   `]
 })
 export class DonateComponent {
@@ -138,14 +143,16 @@ export class DonateComponent {
     return country ? country.networks : [];
   }
 
-  onCountryChange(form: any) {
-    // Reset network code when country changes to avoid invalid combinations
-    form.controls['networkCode']?.setValue('');
+  // Simplified: No longer passes 'form' object to avoid initialization errors
+  onCountryChange() {
+    console.log('Country switched to:', this.selectedCountry);
   }
 
-  onSubmit(form: any) {
+  onSubmit(form: NgForm) {
+    if (form.invalid) return;
+
     const rawData = form.value;
-    const fullContactNo = `${this.getCountryCode()}${rawData.networkCode}${rawData.phoneBody}`;
+    const fullContactNo = `${this.getCountryCode()}${rawData.networkCode || ''}${rawData.phoneBody || ''}`;
     
     const payload = {
       name: rawData.name,
@@ -158,7 +165,7 @@ export class DonateComponent {
     this.http.post('/api/donations', payload).subscribe({
       next: (res) => {
         alert('Jazakallah! Your donation record has been saved.');
-        form.reset({
+        form.resetForm({
           country: 'Pakistan'
         });
         this.selectedCountry = 'Pakistan';
