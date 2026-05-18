@@ -38,7 +38,7 @@ jobs:
           sudo mkdir -p /home/vagrant/civicpulse/frontend/dist
           # Sync the fresh build to the stable directory
           # Note: Adjust 'frontend/dist/frontend/' if your build output is nested
-          sudo rsync -avz --delete frontend/dist/ /home/vagrant/civicpulse/frontend/dist/
+          sudo rsync -avz --delete frontend/dist/frontend/ /home/vagrant/civicpulse/frontend/dist/
           # Ensure Nginx has permission to read the synced files
           sudo chmod -R 755 /home/vagrant/civicpulse/frontend/dist
 
