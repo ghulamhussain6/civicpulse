@@ -31,7 +31,7 @@ services:
     container_name: civic-frontend
     restart: always  # <--- Added
     volumes: 
-       - ./frontend/dist/frontend:/usr/share/nginx/html:ro   
+       - ./frontend/dist:/usr/share/nginx/html:ro   
       #- ./frontend/dist:/usr/share/nginx/html:z
       #- frontend_data:/usr/share/nginx/html
   nginx:
