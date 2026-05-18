@@ -35,12 +35,12 @@ jobs:
       - name: Sync Build to Stable Project Folder
         run: |
           # Create the target directory if it doesn't exist
-          mkdir -p /home/vagrant/civicpulse/frontend/dist
+          sudo mkdir -p /home/vagrant/civicpulse/frontend/dist
           # Sync the fresh build to the stable directory
           # Note: Adjust 'frontend/dist/frontend/' if your build output is nested
-          rsync -avz --delete frontend/dist/ /home/vagrant/civicpulse/frontend/dist/
+          sudo rsync -avz --delete frontend/dist/ /home/vagrant/civicpulse/frontend/dist/
           # Ensure Nginx has permission to read the synced files
-          chmod -R 755 /home/vagrant/civicpulse/frontend/dist
+          sudo chmod -R 755 /home/vagrant/civicpulse/frontend/dist
 
       - name: Deploy to Docker Compose
         run: |
