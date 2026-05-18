@@ -18,6 +18,7 @@ services:
     restart: always  # <--- Added
     environment:
       - DB_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@civic-db:27017/civicpulse?authSource=admin
+      - /home/vagrant/civicpulse/.env  # Use the absolute path here!
     ports:
       - "3000:3000" # Required for the Frontend to reach the API
     volumes:
