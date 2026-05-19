@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -8,10 +8,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, HttpClientModule, RouterModule],
   template: `
-    <div class="header-quote-bar">
-      🌙 SERVING DESERVING FAMILIES SINCE 2015 — JAZAKALLAH O KHEIR 🌙
-    </div>
-
     <div class="ticker-wrap">
       <div class="ticker">
         <div class="ticker__item status-closed"><strong>CLOSED:</strong> Ramadan Drive 2026</div>
@@ -24,56 +20,67 @@ import { RouterModule } from '@angular/router';
       </div>
     </div>
 
-    <div class="main-hero">
-      <div class="branding">CIVICPULSE</div>
-      
-      <nav class="nav-links">
-        <a href="#mission">Our Mission</a>
-        <a href="#impact">Impact</a>
-        <a href="#gallery">Gallery</a>
-        <a routerLink="/donate" class="btn-nav-donate">SUPPORT A FAMILY</a>
-      </nav>
-
-      <div class="hero-content">
-        <h1>10 Years of Community Service.</h1>
-        <p>
-          Alhamdulillah, our Ramadan Drive 2026 has successfully concluded, providing essential food rations 
-          to 250 verified families in need. You can still support our ongoing welfare initiatives throughout the year.
-        </p>
-        <a routerLink="/donate" class="cta-button">RECORD A DONATION</a>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h3>250</h3>
-          <p>Families Served</p>
-        </div>
-        <div class="stat-card">
-          <h3>10</h3>
-          <p>Years of Service</p>
-        </div>
-        <div class="stat-card">
-          <h3>6,500</h3>
-          <p>PKR Base Unit Cost</p>
+    <nav class="cp-nav">
+      <div class="nav-content">
+        <a routerLink="/" class="cp-logo">CIVICPULSE</a>
+        <div class="nav-links">
+          <a href="#mission">Our Mission</a>
+          <a href="#impact">Impact</a>
+          <a href="#gallery">Gallery</a>
+          <a routerLink="/donate" class="cp-btn-nav">SUPPORT A FAMILY</a>
         </div>
       </div>
+    </nav>
 
-      <div class="info-section">
-        <h2>Direct Impact — 100% Volunteer Led. No Admin Costs.</h2>
+    <header class="cp-hero">
+      <div class="hero-overlay">
+        <div class="hero-text-box">
+          <h1 class="hero-title">10 Years of Community Service.</h1>
+          <p class="hero-desc">
+            Alhamdulillah, our Ramadan Drive 2026 has successfully concluded, providing essential food rations 
+            to 250 verified families in need. You can still support our ongoing welfare initiatives throughout the year.
+          </p>
+          <a routerLink="/donate" class="cp-btn-large">RECORD A DONATION</a>
+        </div>
+      </div>
+    </header>
+
+    <section id="impact" class="cp-impact-section">
+      <div class="impact-grid">
+        <div class="impact-card">
+          <h2 class="impact-stat">250</h2>
+          <p class="impact-label">Families Served</p>
+        </div>
+        <div class="impact-card">
+          <h2 class="impact-stat">10</h2>
+          <p class="impact-label">Years of Service</p>
+        </div>
+        <div class="impact-card">
+          <h2 class="impact-stat">6,500</h2>
+          <p class="impact-label">PKR Base Unit Cost</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="mission" class="cp-content-split">
+      <div class="content-text">
+        <span class="content-tag">Direct Impact</span>
+        <h3>100% Volunteer Led. No Admin Costs.</h3>
         <p>Every single rupee donated goes directly to the food supplies.</p>
         <p>
           Our team of dedicated volunteers handles the identification, purchase, 
           and distribution personally to ensure your Amanat reaches the right hands.
         </p>
-        <a href="#verification" class="inline-link">View our verification process →</a>
+        <a href="#verification" class="cp-text-link">View our verification process →</a>
       </div>
+    </section>
 
-      <footer>
-        © 2026 CivicPulse Volunteer Team. Serving Rawalpindi & Islamabad.
-      </footer>
-    </div>
+    <footer class="cp-footer">
+      © 2026 CivicPulse Volunteer Team. Serving Rawalpindi & Islamabad.
+    </footer>
   `,
-  styleUrls: ['./landing.component.css']
+  styleUrls: ['./landing.component.css'],
+  encapsulation: ViewEncapsulation.None // Forces styles to apply cleanly across the layout window
 })
 export class LandingComponent implements OnInit {
   constructor() {}

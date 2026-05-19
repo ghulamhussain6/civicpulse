@@ -1,4 +1,4 @@
-:host {
+:root, :host {
   --cp-green: #1a472a;
   --cp-gold: #c9a55c;
   --cp-dark: #2c3e50;
@@ -6,44 +6,34 @@
   --light-gray: #f8f9fa;
 }
 
-body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; }
-
-/* Top Static Branding Bar */
-.cp-top-bar {
-  background: var(--white);
-  color: var(--cp-green);
-  text-align: center;
-  padding: 15px 10px;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+/* Global resets for the landing scope */
+.ticker-wrap *, .cp-nav *, .cp-hero *, .cp-impact-section *, .cp-content-split *, .cp-footer * {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* ==========================================================================
-   NEW: Infinite Moving Campaign Ticker (Right-to-Left)
+   Infinite Moving Campaign Ticker Styles
    ========================================================================== */
 .ticker-wrap {
   width: 100%;
   overflow: hidden;
-  background: var(--cp-green); 
+  background: #1a472a !important; /* Hardcoded green fallback to avoid style skips */
   padding: 12px 0;
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Moving Track Layout */
 .ticker {
   display: inline-flex;
   white-space: nowrap;
   animation: marquee 30s linear infinite;
 }
 
-/* Individual Slide Segments */
 .ticker__item {
   display: inline-block;
   padding: 0 3rem;
   font-size: 13px;
-  font-family: 'Segoe UI', sans-serif;
-  color: var(--white);
+  color: var(--white) !important;
   letter-spacing: 0.5px;
 }
 
@@ -51,23 +41,21 @@ body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0;
   margin-right: 6px;
 }
 
-/* Conditional Colors matching the status types */
-.status-closed strong { color: #bdc3c7; }   /* Clean Silver Grey */
-.status-ongoing strong { color: var(--cp-gold); }  /* Brand Gold */
+.status-closed strong { color: #bdc3c7 !important; }
+.status-ongoing strong { color: #c9a55c !important; }
 
-/* Pause the ticker if a user positions mouse over to read long entries */
 .ticker-wrap:hover .ticker {
   animation-play-state: paused;
 }
 
-/* Animation Keyframe Block: Right-to-Left linear slide */
 @keyframes marquee {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
 }
-/* ========================================================================== */
 
-/* Nav Styles */
+/* ==========================================================================
+   Navigation Bar Styles
+   ========================================================================== */
 .cp-nav {
   display: flex;
   justify-content: center;
@@ -84,7 +72,9 @@ body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0;
 .nav-links a { text-decoration: none; color: var(--cp-dark); margin-left: 25px; font-weight: 600; font-size: 14px; transition: 0.3s; cursor: pointer; }
 .nav-links a:hover { color: var(--cp-gold); }
 
-/* Hero Styles */
+/* ==========================================================================
+   Hero Header Block Styles
+   ========================================================================== */
 .cp-hero {
   height: 70vh;
   background: url('/assets/ramadan-compaign-3.jpeg') center/cover no-repeat;
@@ -97,52 +87,36 @@ body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0;
   align-items: center;
   padding: 0 10%;
 }
-.hero-text-box { max-width: 600px; color: var(--white); }
+.hero-text-box { max-width: 600px; color: var(--white); text-align: left; }
 .hero-title { font-size: 52px; line-height: 1.1; margin: 0 0 20px; font-weight: 800; color: var(--cp-gold); }
 .hero-desc { font-size: 20px; line-height: 1.5; margin-bottom: 35px; color: #f4f4f4; }
 
-/* Impact Section */
+/* ==========================================================================
+   Impact Metric Grid Styles
+   ========================================================================== */
 .cp-impact-section { background: var(--light-gray); padding: 80px 10%; }
 .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
 .impact-card { background: var(--white); padding: 50px 20px; text-align: center; border-bottom: 5px solid var(--cp-gold); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }      
 .impact-stat { font-size: 44px; color: var(--cp-green); margin: 0; font-weight: 800; }                                                                                                        
-.impact-label { font-size: 15px; text-transform: uppercase; font-weight: 700; color: var(--cp-dark); margin-top: 10px; letter-spacing: 0.5px; }                                                                                                                                                                                                                                             
+.impact-label { font-size: 15px; text-transform: uppercase; font-weight: 700; color: var(--cp-dark); margin-top: 10px; letter-spacing: 0.5px; margin-bottom: 0; }                                                                                                                                                                                                                                             
 
-/* Gallery Styles */
-.cp-gallery-section { padding: 80px 10%; background: var(--white); text-align: center; }                                                                                                      
-.gallery-header { margin-bottom: 40px; }                                                                                                                                                      
-.cp-gallery-grid {                                                                                                                                                                              
-  display: grid;                                                                                                                                                                                
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));                                                                                                                                  
-  gap: 20px;                                                                                                                                                                                  
-}                                                                                                                                                                                             
-.gallery-item img {                                                                                                                                                                             
-  width: 100%;                                                                                                                                                                                  
-  height: 300px;                                                                                                                                                                                
-  object-fit: cover;                                                                                                                                                                            
-  border-radius: 12px;                                                                                                                                                                          
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;                                                                                                     
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);                                                                                                                                                    
-}                                                                                                                                                                                             
-.gallery-item img:hover {                                                                                                                                                                       
-  transform: scale(1.05);                                                                                                                                                                       
-  box-shadow: 0 15px 30px rgba(0,0,0,0.15);                                                                                                                                                   
-}                                                                                                                                                                                             
-
-/* Buttons */                                                                                                                                                                                 
-.cp-btn-nav { background: var(--cp-green); color: var(--cp-gold) !important; padding: 10px 20px; border-radius: 4px; border: 1px solid var(--cp-gold); }                                      
+/* ==========================================================================
+   Buttons and Anchor Tags
+   ========================================================================== */
+.cp-btn-nav { background: var(--cp-green); color: var(--cp-gold) !important; padding: 10px 20px; border-radius: 4px; border: 1px solid var(--cp-gold); text-decoration: none; }
 .cp-btn-large { background: var(--cp-gold); color: var(--cp-green); text-decoration: none; padding: 20px 40px; border-radius: 4px; font-weight: 800; font-size: 18px; display: inline-block; transition: 0.3s; cursor: pointer; border: none; }                                                                                                                                             
 .cp-btn-large:hover { background: var(--white); color: var(--cp-green); transform: translateY(-2px); }                                                                                                                                                                                         
 
-/* Content Split */                                                                                                                                                                           
-.cp-content-split { display: flex; padding: 100px 10%; align-items: center; gap: 60px; }                                                                                                      
-.content-text { flex: 1; }                                                                                                                                                                    
+/* ==========================================================================
+   Content Split Layout Styles
+   ========================================================================== */
+.cp-content-split { display: flex; padding: 100px 10%; align-items: center; gap: 60px; background: var(--white); }                                                                                                      
+.content-text { flex: 1; text-align: left; }                                                                                                                                                                    
 .content-tag { color: var(--cp-green); font-weight: 800; text-transform: uppercase; font-size: 14px; border-bottom: 2px solid var(--cp-gold); padding-bottom: 5px; }                          
 .content-text h3 { font-size: 38px; margin: 20px 0; color: var(--cp-green); }                                                                                                                 
 .cp-text-link { color: var(--cp-green); font-weight: 700; text-decoration: none; transition: 0.3s; }                                                                                          
 .cp-text-link:hover { color: var(--cp-gold); }                                                                                                                                                                                                                                                                                                                                              
-.content-media { flex: 1; }                                                                                                                                                                   
-.content-media img { width: 100%; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }                                                                                                                                                                                                                                                                                           
+
 .cp-footer { background: var(--cp-dark); color: white; text-align: center; padding: 50px; }                                                                                                                                                                                                                                                                                                 
 
 /* Responsive Adjustments */                                                                                                                                                                  
