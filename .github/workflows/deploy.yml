@@ -30,22 +30,34 @@ jobs:
         run: |
           cd frontend
           npm install --prefer-offline --no-audit
-          #npm ci # Using 'ci' is faster and more reliable for runners
           npm run build -- --configuration production --source-map=false
 
       - name: Sync Build to Stable Project Folder
         run: |
-          # Create the target directory if it doesn't exist
+          # 1. Ensure target exists
           sudo mkdir -p /home/vagrant/civicpulse/frontend/dist
-          # Sync the fresh build to the stable directory
-          # Note: Adjust 'frontend/dist/frontend/' if your build output is nested
-          sudo rsync -avz --size-only --delete frontend/dist/*/ /home/vagrant/civicpulse/frontend/dist/
-          # Ensure Nginx has permission to read the synced files
+          
+          # 2. Find the actual build directory (handles /dist/frontend/browser or /dist/frontend)
+          # We look for index.html and get its directory
+          BUILD_PATH=$(find frontend/dist -name index.html -exec dirname {} \;)
+          echo "Detected build output at: $BUILD_PATH"
+          
+          # 3. Sync the CONTENT of that folder (note the trailing slash /)
+          # We use -L to follow symlinks if any exist
+          if [ -n "$BUILD_PATH" ]; then
+            sudo rsync -avzL --delete "$BUILD_PATH/" /home/vagrant/civicpulse/frontend/dist/
+          else
+            echo "Error: Could not find index.html in frontend/dist"
+            exit 1
+          fi
+          
+          # 4. Fix permissions
           sudo chmod -R 755 /home/vagrant/civicpulse/frontend/dist
 
       - name: Deploy to Docker Compose
         run: |
-          # Run from the project root where the valid docker-compose.yml lives
           cd /home/vagrant/civicpulse
           docker-compose up -d --build
           docker image prune -f
+          # Force Nginx to reload files from the updated volume
+          docker exec civic-nginx nginx -s reload
