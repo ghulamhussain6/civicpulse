@@ -27,7 +27,7 @@ import { RouterModule } from '@angular/router';
           <a href="#mission">Our Mission</a>
           <a href="#impact">Impact</a>
           <a href="#gallery">Gallery</a>
-          <a routerLink="/donate" class="cp-btn-nav">SUPPORT A FAMILY</a>
+          <a href="#team">Meet Our Team</a> <a routerLink="/donate" class="cp-btn-nav">SUPPORT A FAMILY</a>
         </div>
       </div>
     </nav>
@@ -75,14 +75,43 @@ import { RouterModule } from '@angular/router';
       </div>
     </section>
 
+    <section id="team" class="cp-team-section">
+      <div class="team-header">
+        <span class="content-tag">The Driving Force</span>
+        <h2>Meet Our Volunteer Team</h2>
+        <p>A structured, 100% dedicated collective volunteering across Rawalpindi & Islamabad since 2015.</p>
+      </div>
+      
+      <div class="team-grid">
+        <div class="team-card" *ngFor="let member of teamData">
+          <div class="avatar-placeholder">
+            <span>{{ member.initials }}</span>
+          </div>
+          <h3>{{ member.name }}</h3>
+          <span class="member-role">{{ member.role }}</span>
+          <p class="member-desc">{{ member.desc }}</p>
+        </div>
+      </div>
+    </section>
+
     <footer class="cp-footer">
       © 2026 CivicPulse Volunteer Team. Serving Rawalpindi & Islamabad.
     </footer>
   `,
   styleUrls: ['./landing.component.css'],
-  encapsulation: ViewEncapsulation.None // Forces styles to apply cleanly across the layout window
+  encapsulation: ViewEncapsulation.None
 })
 export class LandingComponent implements OnInit {
+  // Defined structured roster records with consistent initialization properties
+  teamData = [
+    { name: "Ali Naqvi", initials: "AN", role: "Drive Coordinator", desc: "Manages overall supply chain procurement, inventory sorting, and community partner alignments." },
+    { name: "Arsal Masood", initials: "AM", role: "Field Operations Lead", desc: "Oversees ground-level neighborhood assessment networks and verification procedures." },
+    { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management." },
+    { name: "Asjad Masood", initials: "AJ", role: "Database Management", desc: "Coordinates dynamic transparency records, referral logging, and internal record sync." },
+    { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments." },
+    { name: "Usman Pervaiz", initials: "UP", role: "Verification Specialist", desc: "Conducts personal case validation checks to ensure zero-overhead data security." }
+  ];
+
   constructor() {}
   ngOnInit() {}
 }

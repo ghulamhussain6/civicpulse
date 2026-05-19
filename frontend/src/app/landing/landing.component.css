@@ -7,7 +7,7 @@
 }
 
 /* Global resets for the landing scope */
-.ticker-wrap *, .cp-nav *, .cp-hero *, .cp-impact-section *, .cp-content-split *, .cp-footer * {
+.ticker-wrap *, .cp-nav *, .cp-hero *, .cp-impact-section *, .cp-content-split *, .cp-team-section *, .cp-footer * {
   box-sizing: border-box;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
@@ -117,11 +117,104 @@
 .cp-text-link { color: var(--cp-green); font-weight: 700; text-decoration: none; transition: 0.3s; }                                                                                          
 .cp-text-link:hover { color: var(--cp-gold); }                                                                                                                                                                                                                                                                                                                                              
 
+/* ==========================================================================
+   NEW: Meet Our Team Section Styles
+   ========================================================================== */
+.cp-team-section {
+  padding: 80px 10%;
+  background: var(--light-gray);
+  text-align: center;
+}
+
+.team-header {
+  margin-bottom: 50px;
+}
+
+.team-header h2 {
+  font-size: 38px;
+  color: var(--cp-green);
+  margin: 15px 0 10px;
+  font-weight: 800;
+}
+
+.team-header p {
+  color: var(--cp-dark);
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-card {
+  background: var(--white);
+  padding: 35px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+  border-top: 4px solid var(--cp-green);
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-placeholder {
+  width: 70px;
+  height: 70px;
+  background: #e8f0ec;
+  color: var(--cp-green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 22px;
+  font-weight: 700;
+  border: 2px solid var(--cp-gold);
+}
+
+.team-card h3 {
+  font-size: 20px;
+  color: var(--cp-dark);
+  margin: 0 0 5px 0;
+  font-weight: 700;
+}
+
+.member-role {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--cp-gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 15px;
+}
+
+.member-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ==========================================================================
+   Footer and Responsiveness
+   ========================================================================== */
 .cp-footer { background: var(--cp-dark); color: white; text-align: center; padding: 50px; }                                                                                                                                                                                                                                                                                                 
 
-/* Responsive Adjustments */                                                                                                                                                                  
 @media (max-width: 992px) {                                                                                                                                                                     
   .cp-content-split { flex-direction: column; padding: 60px 5%; }                                                                                                                               
   .hero-title { font-size: 38px; }                                                                                                                                                              
   .impact-grid { grid-template-columns: 1fr; }                                                                                                                                                
+  .cp-team-section { padding: 50px 5%; }
+  .team-grid { grid-template-columns: 1fr; }
 }
