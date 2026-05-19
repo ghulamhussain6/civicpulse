@@ -1,31 +1,40 @@
-export interface Campaign {
+export interface SliderCampaign {
   title: string;
   type: 'Active' | 'Ongoing' | 'Closed';
-  goal: string;
-  cost: string;
   description: string;
 }
 
-export const CAMPAIGN_DATA: Campaign[] = [
+// 1. Text meant for the landing page slider
+export const LANDING_SLIDER_DATA: SliderCampaign[] = [
   {
     title: "Ramadan Drive 2026",
     type: "Closed",
-    goal: "Goal Reached: 250 Families",
-    cost: "PKR 6,500 per Package",
-    description: "Alhamdulillah, all target families received their ration packs."
+    description: "Alhamdulillah, 250 families were served with essential food packages."
   },
   {
     title: "Monthly Ration Support",
     type: "Ongoing",
-    goal: "Ongoing: 50+ Families",
-    cost: "PKR 6,500 per Month",
-    description: "Continuous food security for widows and low-income households."
+    description: "Providing continuous monthly food security for widows and low-income households."
   },
   {
-    title: "General Sadaqah & Zakat",
+    title: "General Support",
     type: "Ongoing",
-    goal: "Open Contribution",
-    cost: "Any Amount",
-    description: "Supporting community emergencies and local welfare needs."
+    description: "Ongoing assistance for Educational Expenses, Health Support, and Marriage Expenses."
   }
+];
+
+// 2. Exact allocation categories for the donation form dropdown
+export const DONATION_OPTIONS: string[] = [
+  "Monthly Ration Support - Sadqa",
+  "Monthly Ration Support - Zakat",
+  "Monthly Ration Support - Kharaat",
+  "General Support - Educational Expense - Sadqa",
+  "General Support - Educational Expense - Zakat",
+  "General Support - Educational Expense - Kherat",
+  "General Support - Health - Sadqa",
+  "General Support - Health - Zakat",
+  "General Support - Health - Kherat",
+  "General Support - Marriage Expenses - Sadqa",
+  "General Support - Marriage Expenses - Zakat",
+  "General Support - Marriage Expenses - Kharaat"
 ];
