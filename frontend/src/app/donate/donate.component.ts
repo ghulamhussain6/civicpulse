@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { CAMPAIGN_DATA, Campaign } from './campaigns.data'; // External Data Import
 
 @Component({
   selector: 'app-donate',
@@ -13,8 +14,32 @@ import { HttpClient } from '@angular/common/http';
       <div class="donate-container">
         <a routerLink="/" class="back-link">← Back to Home</a>
         
+        <div class="campaign-slider">
+          <div class="slider-content" *ngFor="let camp of allCampaigns; let i = index" [hidden]="i !== currentSlide">
+            <div class="camp-card">
+              <div class="camp-badge" [ngClass]="{
+                'badge-active': camp.type === 'Active',
+                'badge-ongoing': camp.type === 'Ongoing',
+                'badge-closed': camp.type === 'Closed'
+              }">
+                {{ camp.type }}
+              </div>
+              <h3>{{ camp.title }}</h3>
+              <div class="camp-details">
+                <span><strong>{{ camp.goal }}</strong></span>
+                <span *ngIf="camp.type !== 'Closed'"><strong>{{ camp.cost }}</strong></span>
+              </div>
+              <p>{{ camp.description }}</p>
+            </div>
+          </div>
+          <div class="slider-controls">
+            <button type="button" (click)="prevSlide()">←</button>
+            <span>{{ currentSlide + 1 }} / {{ allCampaigns.length }}</span>
+            <button type="button" (click)="nextSlide()">→</button>
+          </div>
+        </div>
+
         <div class="form-header">
-          <span class="tag">Ramadan Drive 2026</span>
           <h2>Donation Record Form</h2>
           <p>Please record your transaction details below for transparency.</p>
         </div>
@@ -38,20 +63,17 @@ import { HttpClient } from '@angular/common/http';
               <label>Contact (Network & Number)</label>
               <div class="contact-grid">
                 <div class="prefix-box">{{ getCountryCode() }}</div>
-                
                 <div class="network-input-wrapper">
                   <select *ngIf="getNetworks().length > 0; else manualNetwork" 
                           name="networkCode" ngModel required>
                     <option value="" disabled>Network</option>
                     <option *ngFor="let net of getNetworks()" [value]="net">{{ net }}</option>
                   </select>
-                  
                   <ng-template #manualNetwork>
                     <input type="text" name="networkCode" ngModel required 
                            placeholder="Code" class="manual-code-input">
                   </ng-template>
                 </div>
-
                 <input type="text" name="phoneBody" ngModel required 
                        [placeholder]="selectedCountry === 'Pakistan' ? '7 digits' : 'Number'" 
                        [maxlength]="selectedCountry === 'Pakistan' ? 7 : 12">
@@ -85,8 +107,20 @@ import { HttpClient } from '@angular/common/http';
     .donate-page { padding: 60px 20px; background: #f4f7f6; min-height: 100vh; font-family: 'Segoe UI', sans-serif; }
     .donate-container { max-width: 700px; margin: 0 auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
     .back-link { text-decoration: none; color: #1a472a; font-size: 14px; font-weight: 600; margin-bottom: 20px; display: inline-block; }
+    
+    /* Slider Styles */
+    .campaign-slider { background: #1a472a; color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; }
+    .camp-card h3 { margin: 0; color: #c9a55c; font-size: 22px; }
+    .camp-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+    .badge-active { background: #c9a55c; color: #1a472a; }
+    .badge-ongoing { background: #3498db; color: white; }
+    .badge-closed { background: #95a5a6; color: white; }
+    .camp-details { display: flex; gap: 20px; margin: 15px 0; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+    .slider-controls { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 20px; }
+    .slider-controls button { background: transparent; border: 1px solid #c9a55c; color: #c9a55c; padding: 5px 15px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+    .slider-controls button:hover { background: #c9a55c; color: #1a472a; }
+
     .form-header { text-align: center; margin-bottom: 30px; }
-    .tag { color: #c9a55c; font-weight: bold; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; }
     h2 { color: #1a472a; margin: 10px 0; font-size: 28px; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
     .full-width { grid-column: span 2; }
@@ -110,6 +144,8 @@ import { HttpClient } from '@angular/common/http';
   `]
 })
 export class DonateComponent {
+  allCampaigns: Campaign[] = CAMPAIGN_DATA;
+  currentSlide = 0;
   selectedCountry: string = 'Pakistan';
 
   countries = [
@@ -133,6 +169,14 @@ export class DonateComponent {
 
   constructor(private http: HttpClient) {}
 
+  nextSlide() {
+    this.currentSlide = (this.currentSlide + 1) % this.allCampaigns.length;
+  }
+
+  prevSlide() {
+    this.currentSlide = (this.currentSlide - 1 + this.allCampaigns.length) % this.allCampaigns.length;
+  }
+
   getCountryCode() {
     const country = this.countries.find(c => c.name === this.selectedCountry);
     return country ? country.code : '';
@@ -143,7 +187,6 @@ export class DonateComponent {
     return country ? country.networks : [];
   }
 
-  // Simplified: No longer passes 'form' object to avoid initialization errors
   onCountryChange() {
     console.log('Country switched to:', this.selectedCountry);
   }
@@ -165,9 +208,7 @@ export class DonateComponent {
     this.http.post('/api/donations', payload).subscribe({
       next: (res) => {
         alert('Jazakallah! Your donation record has been saved.');
-        form.resetForm({
-          country: 'Pakistan'
-        });
+        form.resetForm({ country: 'Pakistan' });
         this.selectedCountry = 'Pakistan';
       },
       error: (err) => {
