@@ -32,7 +32,19 @@ import { DONATION_OPTIONS } from './campaigns.data'; // Import dropdown arrays
 
             <div class="form-group full-width">
               <label>Full Name of Donor</label>
-              <input type="text" name="name" ngModel required placeholder="e.g. Ahmad Khan">
+              <input 
+                type="text" 
+                name="name" 
+                #nameModel="ngModel"
+                ngModel 
+                required 
+                pattern="^[a-zA-Z\\s.]+$"
+                oninput="this.value = this.value.replace(/[^a-zA-Z\s.]/g, '')"
+                placeholder="e.g. Ahmad Khan"
+              >
+              <div *ngIf="nameModel.invalid && (nameModel.dirty || nameModel.touched)" class="validation-warning">
+                <span *ngIf="nameModel.errors?.['pattern']">⚠️ Name must only contain alphabetical characters.</span>
+              </div>
             </div>
 
             <div class="form-group">
@@ -55,18 +67,43 @@ import { DONATION_OPTIONS } from './campaigns.data'; // Import dropdown arrays
                   </select>
                   <ng-template #manualNetwork>
                     <input type="text" name="networkCode" ngModel required 
+                           pattern="^[0-9]+$"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                            placeholder="Code" class="manual-code-input">
                   </ng-template>
                 </div>
-                <input type="text" name="phoneBody" ngModel required 
-                       [placeholder]="selectedCountry === 'Pakistan' ? '7 digits' : 'Number'" 
-                       [maxlength]="selectedCountry === 'Pakistan' ? 7 : 12">
+                <input 
+                  type="text" 
+                  name="phoneBody" 
+                  #phoneModel="ngModel"
+                  ngModel 
+                  required 
+                  pattern="^[0-9]+$"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                  [placeholder]="selectedCountry === 'Pakistan' ? '7 digits' : 'Number'" 
+                  [maxlength]="selectedCountry === 'Pakistan' ? 7 : 12"
+                >
+              </div>
+              <div *ngIf="phoneModel.invalid && (phoneModel.dirty || phoneModel.touched)" class="validation-warning">
+                <span *ngIf="phoneModel.errors?.['pattern']">⚠️ Phone number can only contain digits.</span>
               </div>
             </div>
 
             <div class="form-group">
               <label>Amount (PKR)</label>
-              <input type="number" name="amount" ngModel required placeholder="Amount in PKR">
+              <input 
+                type="number" 
+                name="amount" 
+                #amountModel="ngModel"
+                ngModel 
+                min="1" 
+                oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.startsWith('0')) this.value = '';"
+                required 
+                placeholder="Amount in PKR"
+              >
+              <div *ngIf="amountModel.invalid && (amountModel.dirty || amountModel.touched)" class="validation-warning">
+                <span *ngIf="amountModel.errors?.['min']">⚠️ Amount must be greater than 0 PKR.</span>
+              </div>
             </div>
 
             <div class="form-group">
@@ -95,7 +132,7 @@ import { DONATION_OPTIONS } from './campaigns.data'; // Import dropdown arrays
     h2 { color: #1a472a; margin: 10px 0; font-size: 28px; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
     .full-width { grid-column: span 2; }
-    .form-group { display: flex; flex-direction: column; }
+    .form-group { display: flex; flex-direction: column; position: relative; }
     .form-group label { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 8px; }
     
     input, select { width: 100%; padding: 12px 15px; border: 1.5px solid #e1e1e1; border-radius: 8px; font-size: 15px; transition: 0.3s; box-sizing: border-box; }
@@ -105,6 +142,13 @@ import { DONATION_OPTIONS } from './campaigns.data'; // Import dropdown arrays
     .prefix-box { background: #f0f0f0; border: 1.5px solid #e1e1e1; border-radius: 8px; padding: 0 12px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555; font-size: 14px; min-width: 55px; }
     .network-input-wrapper { min-width: 90px; }
     .manual-code-input { width: 90px !important; }
+
+    .validation-warning {
+      color: #d9534f;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 5px;
+    }
 
     .submit-btn { width: 100%; background: #1a472a; color: #c9a55c; padding: 18px; border: none; border-radius: 8px; font-weight: 800; font-size: 16px; margin-top: 30px; cursor: pointer; transition: 0.3s; }
     .submit-btn:hover:not(:disabled) { background: #13331e; transform: translateY(-2px); }
@@ -157,15 +201,37 @@ export class DonateComponent {
     if (form.invalid) return;
 
     const rawData = form.value;
+    
+    // 1. BACKEND GUARD: Validate that the name only includes alphabets, spaces, or dots
+    const nameRegex = /^[a-zA-Z\s.]+$/;
+    if (!nameRegex.test(rawData.name)) {
+      alert('Invalid Record: Full Name must contain alphabets only.');
+      return;
+    }
+
+    // 2. BACKEND GUARD: Validate that the phone inputs contain only numeric characters
+    const numericRegex = /^[0-9]+$/;
+    if (!numericRegex.test(rawData.phoneBody) || (rawData.networkCode && !numericRegex.test(rawData.networkCode))) {
+      alert('Invalid Record: Contact information can only contain digits.');
+      return;
+    }
+
+    // 3. BACKEND GUARD: Enforce positive integer checking on donation bounds
+    const verifiedAmount = Math.floor(Number(rawData.amount));
+    if (isNaN(verifiedAmount) || verifiedAmount <= 0) {
+      alert('Invalid Entry: Please enter a donation amount greater than 0 PKR.');
+      return;
+    }
+
     const fullContactNo = `${this.getCountryCode()}${rawData.networkCode || ''}${rawData.phoneBody || ''}`;
     
     const payload = {
       name: rawData.name,
       country: this.selectedCountry,
       contactNo: fullContactNo,
-      amount: rawData.amount,
+      amount: verifiedAmount,
       referredBy: rawData.referredBy,
-      campaign: rawData.allocatedCampaign // Sending specific selected variant to the database
+      campaign: rawData.allocatedCampaign 
     };
 
     this.http.post('/api/donations', payload).subscribe({
