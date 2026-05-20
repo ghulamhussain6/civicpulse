@@ -106,13 +106,13 @@ import { RouterModule } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class LandingComponent implements OnInit {
-  // ENHANCED: Included direct 'image' asset paths matching your uploaded roster pictures
+  // FIXED: Added the leading forward slash '/' to make these paths absolute root-level configurations
   teamData = [
     { name: "Ali Naqvi", initials: "AN", role: "Drive Coordinator", desc: "Manages overall supply chain procurement, inventory sorting, and community partner alignments.", image: "" },
     { name: "Arsal Masood", initials: "AM", role: "Field Operations Lead", desc: "Oversees ground-level neighborhood assessment networks and verification procedures.", image: "" },
-    { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management.", image: "assets/images/team/adnanshabbir.jpeg" },
+    { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management.", image: "/assets/images/team/adnanshabbir.jpeg" },
     { name: "Asjad Masood", initials: "AJ", role: "Database Management", desc: "Coordinates dynamic transparency records, referral logging, and internal record sync.", image: "" },
-    { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments.", image: "assets/images/team/bilalahmed.jpeg" },
+    { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments.", image: "/assets/images/team/bilalahmed.jpeg" },
     { name: "Usman Pervaiz", initials: "UP", role: "Verification Specialist", desc: "Conducts personal case validation checks to ensure zero-overhead data security.", image: "" }
   ];
 
