@@ -169,15 +169,15 @@
 
 /* CHANGED: Converted to a structural frame layout to cleanly contain the rounded images */
 .avatar-container {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--cp-gold);
+  border: 3px solid var(--cp-gold);
   background: #e8f0ec;
 }
 
@@ -186,6 +186,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center; /* Keeps faces focused right in the middle */
+  display: block;
 }
 
 /* CHANGED: Kept your clean font scaling properties intact for textual fallback metrics */
@@ -196,6 +198,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-transform: uppercase;
 }
 
 .team-card h3 {

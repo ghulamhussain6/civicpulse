@@ -113,7 +113,14 @@ export class LandingComponent implements OnInit {
     { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management.", image: "/assets/adnanshabbir.jpeg" },
     { name: "Asjad Masood", initials: "AJ", role: "Database Management", desc: "Coordinates dynamic transparency records, referral logging, and internal record sync.", image: "" },
     { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments.", image: "/assets/bilalahmed.jpeg" },
-    { name: "Usman Pervaiz", initials: "UP", role: "Verification Specialist", desc: "Conducts personal case validation checks to ensure zero-overhead data security.", image: "" }
+    { name: "Usman Pervaiz", initials: "UP", role: "Verification Specialist", desc: "Conducts personal case validation checks to ensure zero-overhead data security.", image: "" },
+    { name: "Hussain Ghafoor", initials: "HG", role: "Core Team Volunteer", desc: "Assists in tracking operational on-site tasks, resource mapping, and supply distributions.", image: "/assets/hussainghafoor.jpeg" },
+    { name: "Muhammad Awais", initials: "MA", role: "Community Outreach Lead", desc: "Coordinates field messaging, local liaison networks, and family distribution inquiries.", image: "" },
+    { name: "Ovais Daud", initials: "OD", role: "Data Manager & Field Analyst", desc: "Manages intake assessment registries, data formatting filters, and logic verification mapping.", image: "" },
+    { name: "Khalid Khan", initials: "KK", role: "Resource Mobilization Specialist", desc: "Oversees field supply handling, storage operations, and dispatch schedule management.", image: "/assets/khalidkhan.jpeg" },
+    { name: "Saboor Ahmed", initials: "SA", role: "Core Team Volunteer", desc: "Supports field coordination, local demographic mapping, and ground delivery distribution.", image: "" },
+    { name: "Hasnain Khawaja", initials: "HK", role: "Project Innovation & Planning", desc: "Assists with long-term program planning metrics and direct system optimization pipelines.", image: "" },
+    { name: "Hamza Saleem", initials: "HS", role: "Core Team Volunteer", desc: "Contributes to on-site volunteer operations, logistics tracking, and verified family distributions.", image: "" }
   ];
 
   constructor() {}
