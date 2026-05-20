@@ -118,7 +118,7 @@ export class LandingComponent implements OnInit {
     { name: "Muhammad Awais", initials: "MA", role: "Community Outreach Lead", desc: "Coordinates field messaging, local liaison networks, and family distribution inquiries.", image: "" },
     { name: "Ovais Daud", initials: "OD", role: "Data Manager & Field Analyst", desc: "Manages intake assessment registries, data formatting filters, and logic verification mapping.", image: "" },
     { name: "Khalid Khan", initials: "KK", role: "Resource Mobilization Specialist", desc: "Oversees field supply handling, storage operations, and dispatch schedule management.", image: "/assets/khalidkhan.jpeg" },
-    { name: "Saboor Ahmed", initials: "SA", role: "Core Team Volunteer", desc: "Supports field coordination, local demographic mapping, and ground delivery distribution.", image: "" },
+    { name: "Saboor Ahmed", initials: "SA", role: "Core Team Volunteer", desc: "Supports field coordination, local demographic mapping, and ground delivery distribution.", image: "/assets/hasnainkhawaja.jpeg" },
     { name: "Hasnain Khawaja", initials: "HK", role: "Project Innovation & Planning", desc: "Assists with long-term program planning metrics and direct system optimization pipelines.", image: "" },
     { name: "Hamza Saleem", initials: "HS", role: "Core Team Volunteer", desc: "Contributes to on-site volunteer operations, logistics tracking, and verified family distributions.", image: "" }
   ];
