@@ -49,7 +49,7 @@ import { RouterModule } from '@angular/router';
     <section id="impact" class="cp-impact-section">
       <div class="impact-grid">
         <div class="impact-card">
-          <h2 class="impact-stat">250</h2>
+          <h2 class="impact-stat">2500</h2>
           <p class="impact-label">Families Served</p>
         </div>
         <div class="impact-card">
@@ -110,9 +110,9 @@ export class LandingComponent implements OnInit {
   teamData = [
     { name: "Ali Naqvi", initials: "AN", role: "Drive Coordinator", desc: "Manages overall supply chain procurement, inventory sorting, and community partner alignments.", image: "" },
     { name: "Arsal Masood", initials: "AM", role: "Field Operations Lead", desc: "Oversees ground-level neighborhood assessment networks and verification procedures.", image: "" },
-    { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management.", image: "/assets/images/team/adnanshabbir.jpeg" },
+    { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management.", image: "/assets/adnanshabbir.jpeg" },
     { name: "Asjad Masood", initials: "AJ", role: "Database Management", desc: "Coordinates dynamic transparency records, referral logging, and internal record sync.", image: "" },
-    { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments.", image: "/assets/images/team/bilalahmed.jpeg" },
+    { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments.", image: "/assets/bilalahmed.jpeg" },
     { name: "Usman Pervaiz", initials: "UP", role: "Verification Specialist", desc: "Conducts personal case validation checks to ensure zero-overhead data security.", image: "" }
   ];
 
