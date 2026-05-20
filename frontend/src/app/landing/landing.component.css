@@ -97,28 +97,28 @@
 .cp-impact-section { background: var(--light-gray); padding: 80px 10%; }
 .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
 .impact-card { background: var(--white); padding: 50px 20px; text-align: center; border-bottom: 5px solid var(--cp-gold); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }      
-.impact-stat { font-size: 44px; color: var(--cp-green); margin: 0; font-weight: 800; }                                                                                                        
-.impact-label { font-size: 15px; text-transform: uppercase; font-weight: 700; color: var(--cp-dark); margin-top: 10px; letter-spacing: 0.5px; margin-bottom: 0; }                                                                                                                                                                                                                                             
+.impact-stat { font-size: 44px; color: var(--cp-green); margin: 0; font-weight: 800; }                                                                                                         
+.impact-label { font-size: 15px; text-transform: uppercase; font-weight: 700; color: var(--cp-dark); margin-top: 10px; letter-spacing: 0.5px; margin-bottom: 0; }                                                                                                                                                                                                                                                                                                                                                                            
 
 /* ==========================================================================
    Buttons and Anchor Tags
    ========================================================================== */
 .cp-btn-nav { background: var(--cp-green); color: var(--cp-gold) !important; padding: 10px 20px; border-radius: 4px; border: 1px solid var(--cp-gold); text-decoration: none; }
-.cp-btn-large { background: var(--cp-gold); color: var(--cp-green); text-decoration: none; padding: 20px 40px; border-radius: 4px; font-weight: 800; font-size: 18px; display: inline-block; transition: 0.3s; cursor: pointer; border: none; }                                                                                                                                             
-.cp-btn-large:hover { background: var(--white); color: var(--cp-green); transform: translateY(-2px); }                                                                                                                                                                                         
+.cp-btn-large { background: var(--cp-gold); color: var(--cp-green); text-decoration: none; padding: 20px 40px; border-radius: 4px; font-weight: 800; font-size: 18px; display: inline-block; transition: 0.3s; cursor: pointer; border: none; }                                                                                                                                                   
+.cp-btn-large:hover { background: var(--white); color: var(--cp-green); transform: translateY(-2px); }                                                                                                                                                                                                                                                                                                          
 
 /* ==========================================================================
    Content Split Layout Styles
    ========================================================================== */
-.cp-content-split { display: flex; padding: 100px 10%; align-items: center; gap: 60px; background: var(--white); }                                                                                                      
-.content-text { flex: 1; text-align: left; }                                                                                                                                                                    
+.cp-content-split { display: flex; padding: 100px 10%; align-items: center; gap: 60px; background: var(--white); }                                                                     
+.content-text { flex: 1; text-align: left; }                                                                                                                                               
 .content-tag { color: var(--cp-green); font-weight: 800; text-transform: uppercase; font-size: 14px; border-bottom: 2px solid var(--cp-gold); padding-bottom: 5px; }                          
-.content-text h3 { font-size: 38px; margin: 20px 0; color: var(--cp-green); }                                                                                                                 
-.cp-text-link { color: var(--cp-green); font-weight: 700; text-decoration: none; transition: 0.3s; }                                                                                          
-.cp-text-link:hover { color: var(--cp-gold); }                                                                                                                                                                                                                                                                                                                                              
+.content-text h3 { font-size: 38px; margin: 20px 0; color: var(--cp-green); }                                                                                                               
+.cp-text-link { color: var(--cp-green); font-weight: 700; text-decoration: none; transition: 0.3s; }                                                                                      
+.cp-text-link:hover { color: var(--cp-gold); }                                                                                                                                            
 
 /* ==========================================================================
-   NEW: Meet Our Team Section Styles
+   Meet Our Team Section Styles
    ========================================================================== */
 .cp-team-section {
   padding: 80px 10%;
@@ -167,19 +167,35 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
-.avatar-placeholder {
-  width: 70px;
-  height: 70px;
-  background: #e8f0ec;
-  color: var(--cp-green);
+/* CHANGED: Converted to a structural frame layout to cleanly contain the rounded images */
+.avatar-container {
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
+  border: 2px solid var(--cp-gold);
+  background: #e8f0ec;
+}
+
+/* NEW: Ensures the uploaded image snaps and covers the circular frame seamlessly */
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* CHANGED: Kept your clean font scaling properties intact for textual fallback metrics */
+.avatar-placeholder-text {
+  color: var(--cp-green);
   font-size: 22px;
   font-weight: 700;
-  border: 2px solid var(--cp-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .team-card h3 {
@@ -209,12 +225,12 @@
 /* ==========================================================================
    Footer and Responsiveness
    ========================================================================== */
-.cp-footer { background: var(--cp-dark); color: white; text-align: center; padding: 50px; }                                                                                                                                                                                                                                                                                                 
+.cp-footer { background: var(--cp-dark); color: white; text-align: center; padding: 50px; }                                                                                                                     
 
 @media (max-width: 992px) {                                                                                                                                                                     
   .cp-content-split { flex-direction: column; padding: 60px 5%; }                                                                                                                               
   .hero-title { font-size: 38px; }                                                                                                                                                              
-  .impact-grid { grid-template-columns: 1fr; }                                                                                                                                                
+  .impact-grid { grid-template-columns: 1fr; }                                                                                                                                                  
   .cp-team-section { padding: 50px 5%; }
   .team-grid { grid-template-columns: 1fr; }
 }

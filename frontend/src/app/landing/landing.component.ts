@@ -27,7 +27,8 @@ import { RouterModule } from '@angular/router';
           <a href="#mission">Our Mission</a>
           <a href="#impact">Impact</a>
           <a href="#gallery">Gallery</a>
-          <a href="#team">Meet Our Team</a> <a routerLink="/donate" class="cp-btn-nav">SUPPORT A FAMILY</a>
+          <a href="#team">Meet Our Team</a> 
+          <a routerLink="/donate" class="cp-btn-nav">DONATE</a>
         </div>
       </div>
     </nav>
@@ -84,8 +85,11 @@ import { RouterModule } from '@angular/router';
       
       <div class="team-grid">
         <div class="team-card" *ngFor="let member of teamData">
-          <div class="avatar-placeholder">
-            <span>{{ member.initials }}</span>
+          <div class="avatar-container">
+            <img *ngIf="member.image" [src]="member.image" [alt]="member.name" class="profile-img">
+            <div *ngIf="!member.image" class="avatar-placeholder-text">
+              <span>{{ member.initials }}</span>
+            </div>
           </div>
           <h3>{{ member.name }}</h3>
           <span class="member-role">{{ member.role }}</span>
@@ -102,14 +106,14 @@ import { RouterModule } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class LandingComponent implements OnInit {
-  // Defined structured roster records with consistent initialization properties
+  // ENHANCED: Included direct 'image' asset paths matching your uploaded roster pictures
   teamData = [
-    { name: "Ali Naqvi", initials: "AN", role: "Drive Coordinator", desc: "Manages overall supply chain procurement, inventory sorting, and community partner alignments." },
-    { name: "Arsal Masood", initials: "AM", role: "Field Operations Lead", desc: "Oversees ground-level neighborhood assessment networks and verification procedures." },
-    { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management." },
-    { name: "Asjad Masood", initials: "AJ", role: "Database Management", desc: "Coordinates dynamic transparency records, referral logging, and internal record sync." },
-    { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments." },
-    { name: "Usman Pervaiz", initials: "UP", role: "Verification Specialist", desc: "Conducts personal case validation checks to ensure zero-overhead data security." }
+    { name: "Ali Naqvi", initials: "AN", role: "Drive Coordinator", desc: "Manages overall supply chain procurement, inventory sorting, and community partner alignments.", image: "" },
+    { name: "Arsal Masood", initials: "AM", role: "Field Operations Lead", desc: "Oversees ground-level neighborhood assessment networks and verification procedures.", image: "" },
+    { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management.", image: "assets/images/team/adnanshabbir.jpeg" },
+    { name: "Asjad Masood", initials: "AJ", role: "Database Management", desc: "Coordinates dynamic transparency records, referral logging, and internal record sync.", image: "" },
+    { name: "Dr. Bilal Ahmed", initials: "BA", role: "Medical Relief Officer", desc: "Assists family support screening and health emergency relief assessments.", image: "assets/images/team/bilalahmed.jpeg" },
+    { name: "Usman Pervaiz", initials: "UP", role: "Verification Specialist", desc: "Conducts personal case validation checks to ensure zero-overhead data security.", image: "" }
   ];
 
   constructor() {}
