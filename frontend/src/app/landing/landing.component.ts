@@ -108,7 +108,7 @@ import { RouterModule } from '@angular/router';
 export class LandingComponent implements OnInit {
   // FIXED: Added the leading forward slash '/' to make these paths absolute root-level configurations
   teamData = [
-    { name: "Ali Naqvi", initials: "AN", role: "Drive Coordinator", desc: "Manages overall supply chain procurement, inventory sorting, and community partner alignments.", image: "" },
+    { name: "Ali Naqvi", initials: "AN", role: "Drive Coordinator", desc: "Manages overall supply chain procurement, inventory sorting, and community partner alignments.", image: "/assets/alinaqvi.jpeg" },
     { name: "Arsal Masood", initials: "AM", role: "Field Operations Lead", desc: "Oversees ground-level neighborhood assessment networks and verification procedures.", image: "" },
     { name: "Adnan Shabbir", initials: "AS", role: "Logistics Specialist", desc: "Directs secure transport, delivery routing, and core distribution site management.", image: "/assets/adnanshabbir.jpeg" },
     { name: "Asjad Masood", initials: "AJ", role: "Database Management", desc: "Coordinates dynamic transparency records, referral logging, and internal record sync.", image: "" },
@@ -118,8 +118,8 @@ export class LandingComponent implements OnInit {
     { name: "Muhammad Awais", initials: "MA", role: "Community Outreach Lead", desc: "Coordinates field messaging, local liaison networks, and family distribution inquiries.", image: "" },
     { name: "Ovais Daud", initials: "OD", role: "Data Manager & Field Analyst", desc: "Manages intake assessment registries, data formatting filters, and logic verification mapping.", image: "" },
     { name: "Khalid Khan", initials: "KK", role: "Resource Mobilization Specialist", desc: "Oversees field supply handling, storage operations, and dispatch schedule management.", image: "/assets/khalidkhan.jpeg" },
-    { name: "Saboor Ahmed", initials: "SA", role: "Core Team Volunteer", desc: "Supports field coordination, local demographic mapping, and ground delivery distribution.", image: "/assets/hasnainkhawaja.jpeg" },
-    { name: "Hasnain Khawaja", initials: "HK", role: "Project Innovation & Planning", desc: "Assists with long-term program planning metrics and direct system optimization pipelines.", image: "" },
+    { name: "Saboor Ahmed", initials: "SA", role: "Core Team Volunteer", desc: "Supports field coordination, local demographic mapping, and ground delivery distribution.", image: "" },
+    { name: "Hasnain Khawaja", initials: "HK", role: "Project Innovation & Planning", desc: "Assists with long-term program planning metrics and direct system optimization pipelines.", image: "/assets/hasnainkhawaja.jpeg" },
     { name: "Hamza Saleem", initials: "HS", role: "Core Team Volunteer", desc: "Contributes to on-site volunteer operations, logistics tracking, and verified family distributions.", image: "" }
   ];
 

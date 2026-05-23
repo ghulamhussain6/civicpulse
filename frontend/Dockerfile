@@ -10,7 +10,7 @@ RUN npm run build
 FROM nginx:alpine
 
 # UPDATED: Matches the outputPath in angular.json
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
+COPY --from=build /app/dist/frontend /usr/share/nginx/html_internal
 
 # Optional: Add a custom Nginx config if you plan to use Angular Routing later
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
