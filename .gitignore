@@ -5,3 +5,15 @@ dist/
 .DS_Store
 .vagrant/
 frontend/src/assets/images/
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS files
+Thumbs.db
