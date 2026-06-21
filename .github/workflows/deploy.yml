@@ -78,6 +78,17 @@ jobs:
           # Push both tags to Docker Hub
           docker push hussainghulam/civicpulse-frontend:latest
           docker push hussainghulam/civicpulse-frontend:${{ github.sha }}
+          
+      - name: Tag and Push Backend to Docker Hub  # <-- Added: New block for backend
+        run: |
+          # Tag the backend image that docker-compose just built locally
+          # (Note: Replace 'civicpulse-backend' if your container image is named differently in docker-compose.yml)
+          docker tag civicpulse-backend hussainghulam/civicpulse-backend:latest
+          docker tag civicpulse-backend hussainghulam/civicpulse-backend:${{ github.sha }}
+          
+          # Push both backend tags to Docker Hub
+          docker push hussainghulam/civicpulse-backend:latest
+          docker push hussainghulam/civicpulse-backend:${{ github.sha }}
 
       - name: Clean Up Local Machine Old Images
         run: |
